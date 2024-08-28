@@ -1,0 +1,35 @@
+\documentclass[a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{microtype}
+\usepackage[bibstyle=authoryear,citestyle=authoryear]{biblatex}
+\usepackage{url}\urlstyle{tt}
+\usepackage{comments}
+
+\addbibresource{krr.bib}   % {https://github.com/krr-up/bibliography/blob/master/krr.bib}
+\addbibresource{procs.bib} % {https://github.com/krr-up/bibliography/blob/master/procs.bib}
+% \addbibresource{local.bib} % temporary storage facility - just for emergency
+\bibliography{krr,procs}
+
+\begin{document}
+
+\title{Paper Template}
+
+\author{%
+  Author\\
+  University of Potsdam, Germany
+}
+
+\maketitle
+
+\input{abstract}
+\input{introduction}
+\input{background}
+\input{approach}
+\input{discussion}
+
+\printbibliography{}
+
+\end{document}
