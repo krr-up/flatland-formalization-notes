@@ -1,38 +1,26 @@
 \section{Environment}\label{sec:environment}
-All major components of Flatland are handled by the environment.  As such, it is important to become familiar with some of the fundamental aspects in order to fully understand how the environment functions in Flatland. \\
-
-\noindent Key components:
-
-\begin{itemize}
-	\item Classes
-	\begin{itemize}
-		\item Grid Transition Map
-		\item Agent
-	\end{itemize}
-	\item Builders
-	\begin{itemize}
-		\item Observation Builder
-		\item Malfunction Builder
-	\end{itemize}
-	\item Generators
-	\begin{itemize}
-		\item \textbf{Rail Generator}: generates rail network
-		\item \textbf{Line Generator}: generates start and end locations for each agent
-		\item \textbf{Timetable Generator}: generates earliest departure and latest arrival times for each agent
-	\end{itemize}
-	\item Functions
-	\begin{itemize}
-		\item \texttt{reset(self)} function
-		\item \texttt{step(self, action\_dict)} function: runs a single step in the simulation of the environment
-	\end{itemize}
-	\item \texttt{action dictionary}: actions corresponding to agents at a given time step
-\end{itemize}
 
 \subsection{What is the environment and its properties?}
-Text.
+In a nutshell, the environment is responsible for organizing all aspects of Flatland that are necessary for simulating the movement of trains.  
+There are three major responsibilities:
+\begin{itemize}
+	\item Gathering the primary underlying modules in a single location
+	\item Providing the ability to perform a discrete-time simulation
+	\item Rendering the output of a simulation
+\end{itemize}
+
+\subsubsection{Underlying modules}
+By gathering the underlying modules, Flatland can virtually represent the key components of a railway network.  In particular, there are infrastucture components and operation components.
+\textbf{Infrastucture components} include the tracks and the trains.  These are supported by the \textit{Grid Transition Map}, the \textit{Rail Generator}, and the \textit{Agent}.
+\textbf{Operation components} include the schedules, paths, and delays.  These are supported by the \textit{Timetable Generator}, the \textit{Line Generator}, and the \textit{Malfunction Builder}.
 
 \subsection{What is the output of the environment?}
-Text.
+There are three ? when considering the output of the environment:
+\begin{enumerate}
+	\item Intended output
+	\item Intermedieate output
+	\item Accessible attributes
+\end{enumerate}
 
 \subsection{What does the environment require for a solution?}
 Text.
