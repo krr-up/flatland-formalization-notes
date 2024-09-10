@@ -1,35 +1,35 @@
 \section{Background}\label{sec:background}
 
-All major components of Flatland are handled by the environment.  As such, it is important to become familiar with some of the fundamental aspects in order to fully understand how the environment functions in Flatland. \\
+The environment is responsible for organizing all aspects of Flatland that are necessary for simulating the movement of trains.  Since key components of Flatland are handled by the environment, it is important to become familiar with them in order to fully understand the environment: \\
 
-\noindent Key components:
-\begin{vwcol}[widths={0.25,0.75},
- sep=.8cm, justify=flush,rule=0pt,indent=1em] 
-\begin{multicols}{2}
-\begin{itemize}
-	\item Classes
-	\begin{itemize}
-		\item Grid Transition Map
-		\item Agent
-	\end{itemize}
-	\item Builders
-	\begin{itemize}
-		\item Observation Builder
-		\item Malfunction Builder
-	\end{itemize}
-	\columnbreak
-	\item Generators
-	\begin{itemize}
-		\item \textbf{Rail Generator}: generates rail network
-		\item \textbf{Line Generator}: generates start and end locations for each agent
-		\item \textbf{Timetable Generator}: generates earliest departure and latest arrival times for each agent
-	\end{itemize}
-	\item Functions
-	\begin{itemize}
-		\item \texttt{reset(self)} function
-		\item \texttt{step(self, action\_dict)} function: runs a single step in the simulation of the environment
-	\end{itemize}
-	\item \texttt{action dictionary}: actions corresponding to agents at a given time step
-\end{itemize}
-\end{multicols}
-\end{vwcol}
+\begin{table}[H]
+\centering
+	{\footnotesize
+  	\begin{tabular}{@{\hspace*{1em}}ll@{}}
+    	\toprule \toprule
+    	\multicolumn{2}{c}{Key components of Flatland} \\
+
+    	\midrule
+
+    	\textbf{Classes} \\
+    	\tabitem Grid Transition Map & defines the tiles and transitions of the grid \\
+    	\tabitem Agent & defines the trains that traverse the environment \\
+    	\tabitem Observation Builder & defines what agents know about the environment \\[.75\normalbaselineskip]
+    
+	\textbf{Generators} \\
+    	\tabitem Rail Generator & generates rail network \\
+	\tabitem Line Generator & generates start and end locations for each agent \\
+    	\tabitem Timetable Generator & generates departure and arrival times for each agent \\
+	\tabitem Malfunction Generator & generates malfunctions that simulate delays \\[.75\normalbaselineskip]
+    
+	\textbf{Functions} \\
+    	%\tabitem \texttt{reset(self)} & resets the environment to its initial state \\
+	\tabitem \texttt{step(self, action\_dict)} & runs a single step in the simulation of the environment \\
+	 & \texttt{action\_dict} \textit{contains one action for each agent} \\
+
+	\bottomrule
+  	\end{tabular}
+	}
+\end{table}
+
+\noindent In addition to understanding how the environment is created, these components also reveal information about Flatland that is accessible via the environment, such as the statuses of the trains, their expected arrivals, or current malfunctions.
