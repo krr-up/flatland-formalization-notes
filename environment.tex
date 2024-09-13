@@ -81,7 +81,7 @@ As output, the function provides a current look at the environment through four 
 The primary output of the simulation is a rendered animation of the trains traversing the environment.  
 The \texttt{render\_env()} function is called immediately prior to each \texttt{step()} function call to capture a snapshot of the environment at that time step.  
 Additionally, once the entire simulation has completed, there is a \texttt{RailEnvPersister} class which allows the episode to be saved into a separate file to be loaded later.  
-Optionally, as part of this output file, a distance map can be saved \textit{(explanation about what this is)}.
+Optionally, as part of this output file, a distance map can be saved.  A distance map is a matrix that calculates the paths from all cells to the agents' respective targets.
 
 %There are three ? when considering the output of the environment:
 %\begin{enumerate}
