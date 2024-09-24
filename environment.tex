@@ -1,10 +1,16 @@
 \section{Environment}\label{sec:environment}
 
 \subsection{What are the properties of the environment?}
-The properties of the environment are derived directly from the modules that comprise it.  Properties belong to one of two types: infrastructure or operations.
+The properties of the environment are derived directly from the modules that comprise it.  
+Properties belong to one of two types: infrastructure or operations.
 
 \subsubsection{Infrastructure}
-The \texttt{GridTransitionMap} and \texttt{Agent} classes simulate the physical infrastructure of a true environment, and their attributes are accessible through the environment.  For example, calling \texttt{env.rail.grid} returns a matrix of ID values, representing the track type for each cell.  Calling \texttt{env.agents[0]} returns an overview much like what is shown below:
+The \texttt{GridTransitionMap} and \texttt{Agent} classes simulate the physical infrastructure of a true environment, and are defined to ensure that environments are presented realistically.  
+For instance, any track must transition to an adjacent track, with additional constraints preventing independent networks from arising, meaning that all cells are accessible from any given starting cell.
+Furthermore, switches enforce a maximum of two directional decisions for any given cell.
+Attributes about the network infrastructure are accessible through the environment at any time.  
+Calling \texttt{env.rail.grid} returns a matrix of the track type for each cell.  
+Calling \texttt{env.agents[0]} returns an overview much like what is shown below:
 
 \begin{table}[H]
 \centering
@@ -14,27 +20,26 @@ The \texttt{GridTransitionMap} and \texttt{Agent} classes simulate the physical 
 	\texttt{handle(agent index): 0} \\
 		\texttt{target: (13, 19)}  \\
 		\texttt{initial\_position: (24, 13)} & 	\texttt{initial\_direction: 0}  \\
-		\texttt{earliest\_departure: 2}  &	\texttt{latest\_arrival: 31}  \\[.25\normalbaselineskip]
-		
+		\texttt{earliest\_departure: 2}  &	\texttt{latest\_arrival: 31}  \\
 		\texttt{old\_position: None} 	&	\texttt{old\_direction: None}  \\
 		\texttt{position: None}  	&	\texttt{direction: 0}   \\
-		\texttt{state: TrainState.WAITING} &	\texttt{in\_malfunction: False}    \\             
-		\texttt{speed: 1.0}       \\     
+		\texttt{state: TrainState.WAITING} & \texttt{speed: 1.0}	    \\             
+		\texttt{in\_malfunction: False} & \texttt{malfunction\_down\_counter: 0 }      \\     
 	\bottomrule
-
-  	\end{tabular}
+	\end{tabular}
+	\caption{Selected primary attributes accessible from an Agent object.}
 	}
 \end{table} 
 
-\noindent Each of these attributes is accessible for any agent at any time.
-
-
-
 \subsubsection{Operations}
-The schedules, paths, and delays represet the operations of an environment.  \textit{Under construction: more information to come}
-
-
-
+The \texttt{Timetable Generator} (schedules), \texttt{Line Generator} (paths), and \texttt{Malfunction Generator} (delays) simulate the operations of an environment.
+{\small
+\begin{itemize}
+	\item \texttt{Timetable Generator} information is present in the \texttt{earliest\_departure} and \texttt{latest\_arrival} attributes, and are accessible before the simulation begins
+	\item \texttt{Line Generator} information is present in the \texttt{initial\_position}, \texttt{initial\_direction}, and \texttt{target} attributes, and are likewise accessible before the simulation begins
+	\item \texttt{Malfunction Generator} information is present in the \texttt{in\_malfunction} and \\ \texttt{malfunction\_down\_counter} attributes, but unlike the others, malfunctions are not known until the time step in which they occur; however, once they do occur, the counter indicates how long the malfunction will last
+\end{itemize}
+}
 %The Flatland environment has three primary responsibilities:
 %\begin{itemize}
 %	\item Gathering the primary underlying modules in a single location
@@ -57,17 +62,27 @@ The schedules, paths, and delays represet the operations of an environment.  \te
 %\textbf{Operation components} include the schedules, paths, and delays.  These are supported by the \textit{Timetable Generator}, the \textit{Line Generator}, and the %\textit{Malfunction Builder}.
 
 \subsection{What does the environment require for a solution?}
-Interaction with the environment is done via the \texttt{step()} function.  Flatland is a discrete time simulation, and each call of this function increments the simulation by a single time step.  The function takes as input a Python dictionary, \texttt{action\_dict}, whose keys correspond to the handles of the agents in the environment and whose values correspond to the action assigned to each agent at the current time step.  This means the size of the dictionary is the same as the number of agents in the environment.  Below is an example for an environment with two agents:
+Interaction with the environment is done via the \texttt{step()} function.  As a discrete time simulation, each call of this function increments the simulation by a single time step.  
+The function takes as input a Python dictionary, \texttt{action\_dict}, whose keys correspond to the handles of the agents in the environment and whose values correspond to the action assigned to each agent at the current time step.  
+This means the size of the dictionary is the same as the number of agents in the environment.  
+Below is an example for an environment with two agents:
+	\begin{verbatim}
+	{0: RailEnvActions.MOVE_FORWARD, 1: RailEnvActions.MOVE_RIGHT}
+	\end{verbatim}
 
-\begin{verbatim}
-{0: RailEnvActions.MOVE_FORWARD, 1: RailEnvActions.MOVE_RIGHT}
-\end{verbatim}
 
-\noindent Ultimately, a solution is reached so long as all agents reach their respective targets within the assigned timeframes and without incurring a collision.  Since only one action per agent is given at each time step, the function must be called repeatedly until a solution has been reached.  This quality allows for flexibility throughout the simulation, particularly to handle unexpected malfunctions; if entire agent paths were required from the start, this would not be the case.  Each time the function is called, the environment updates, which includes advancing agent states, locations, and directions. As output, the function provides a current look at the environment through four objects: observations, rewards, done status, and additional information.
+\noindent Ultimately, a solution is reached so long as all agents reach their respective targets within the assigned timeframes and without incurring a collision.  
+Since only one action per agent is given at each time step, the function must be called repeatedly until a solution has been reached.  
+This quality allows for flexibility throughout the simulation, particularly to handle unexpected malfunctions; if entire agent paths were required from the start, this would not be the case.  
+Each time the function is called, the environment updates, which includes advancing agent states, locations, and directions. 
+As output, the function provides a current look at the environment through four objects: observations, rewards, done status, and additional information.
 
 \subsection{What is the output of the environment?}
-The primary output of the simulation is a rendered animation of the trains traversing the environment.  The \texttt{render\_env()} function is called immediately prior to each \texttt{step()} function call to capture a snapshot of the environment at that time step.  Additionally, once the entire simulation has completed, there is a \texttt{RailEnvPersister} class which allows the episode to be saved into a separate file to be loaded later.  Optionally, as part of this output file, a distance map can be saved \textit{(explanation about what this is)}.
-
+The primary output of the simulation is a rendered animation of the trains traversing the environment.  
+The \texttt{render\_env()} function is called immediately prior to each \texttt{step()} function call to capture a snapshot of the environment at that time step.
+Images from the time steps can be combined into a GIF moving image to simulate motion in the environment.
+Additionally, once the entire simulation has completed, there is a \texttt{RailEnvPersister} class which allows the episode to be saved into a separate file to be loaded later.  
+Optionally, as part of this output file, a distance map can be saved.  A distance map is a matrix representation of the distance from each cell to an agent's target.
 
 %There are three ? when considering the output of the environment:
 %\begin{enumerate}
@@ -75,5 +90,3 @@ The primary output of the simulation is a rendered animation of the trains trave
 %	\item Intermedieate output
 %	\item Accessible attributes
 %\end{enumerate}
-
-
