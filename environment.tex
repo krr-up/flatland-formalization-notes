@@ -41,4 +41,16 @@ A valid solution candidate for a single train is a sequence of vertices $v_i \in
 \noindent In other words, the first vertex in the sequence corresponds to the starting position of the train and the final vertex in the sequence corresponds to the target position of the train.
 
 \subsection{Example}\label{sec:example}
-Example.
+Vertices in the graph correspond to cells in the original Flatland grid.  The edges that connect pairs of vertices correspond to the tracks in the original Flatland grid.  
+
+\begin{figure}
+\centering
+        \includegraphics[width=\linewidth]{img/edges.png}
+    \caption{Example}
+    \label{fig:verticalcell}
+\end{figure}
+
+\begin{itemize}
+	\item $(n_3 \rightarrow n_4, \{north\}, east)$
+	\item $(n_4 \rightarrow n_2, \{north, east\}, north)$
+\end{itemize}
