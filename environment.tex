@@ -63,6 +63,8 @@ Vertices in the graph correspond to cells in the original Flatland grid.  The ed
 Given a Flatland environment of height $h$ and width $w$, we consider $D = \{north,south,east,west\}$ the set of valid traversal directions and a set of cells, $C = h \times w$.  
 The environment is represented by a graph $G = (V,E)$, where $V = C \times D$ is a finite set of \textit{vertices} and $E \subseteq V \times V$ is a set of \textit{edges}.
 
+% A vertex $v \in V$
+
 % Each cell corresponds to four vertices, each of which in turn corresponds to one of the four traversal directions in $D$.
 
 \subsection{Trains}\label{sec:trains}
@@ -70,7 +72,7 @@ Each environment has $n$ number of trains, denoted by the set $T = \{t_0,...,t_{
 \begin{itemize}
 	\item $p \in V$ is the starting vertex
 	\item $e$ is the earliest departure time
-	\item $Q = \{q_n, q_s, q_w, q_e\}$ such that $q_n, q_s, q_w, q_e \in V$ is the set of valid target vertices corresponding to the target position
+	\item $Q=\{q_n, q_s, q_w, q_e\}$ such that $Q \subseteq V$ $q_n, q_s, q_w, q_e \in V$ is the set of valid target vertices corresponding to the target position
 	\item $a$ is the latest arrival time
 \end{itemize}
 
