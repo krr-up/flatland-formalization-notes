@@ -54,3 +54,33 @@ Vertices in the graph correspond to cells in the original Flatland grid.  The ed
 	\item $(n_3 \rightarrow n_4, \{north\}, east)$
 	\item $(n_4 \rightarrow n_2, \{north, east\}, north)$
 \end{itemize}
+
+\pagebreak
+
+\section{Flatland}\label{sec:flatland}
+
+\subsection{Environment}\label{sec:environment}
+Given a Flatland environment of height $h$ and width $w$, we consider $D = \{north,south,east,west\}$ the set of valid traversal directions and a set of cells, $C = h \times w$.  
+The environment is represented by a graph $G = (V,E)$, where $V = C \times D$ is a finite set of \textit{vertices} and $E \subseteq V \times V$ is a set of \textit{edges}.
+
+% Each cell corresponds to four vertices, each of which in turn corresponds to one of the four traversal directions in $D$.
+
+\subsection{Trains}\label{sec:trains}
+Each environment has $n$ number of trains, denoted by the set $T = \{t_0,...,t_{n-1}\}$.  A train $t = (p, e, Q, a)$ where:
+\begin{itemize}
+	\item $p \in V$ is the starting vertex
+	\item $e$ is the earliest departure time
+	\item $Q = \{q_n, q_s, q_w, q_e\}$ such that $q_n, q_s, q_w, q_e \in V$ is the set of valid target vertices corresponding to the target position
+	\item $a$ is the latest arrival time
+\end{itemize}
+
+\noindent is an agent that traverses the graph.
+
+\subsection{Solution}\label{sec:solution}
+A valid solution candidate for a single train $t_x \in T$ is a sequence of vertices $v_i \in V$ for $0 \leq i \leq n$ such that $(v_i,v_{i+1}) \in E$ for all $0 \leq i \leq n$, as well as that $v_{0} = p_x$ and $v_{n} \in Q_x$.  The first vertex in the sequence corresponds to the starting vertex of the train, whereas the final vertex in the sequence corresponds to one of the valid target positions of the train.
+
+
+\subsection{Example}\label{sec:example}
+Vertices in the graph correspond to cells in the original Flatland grid.  The edges that connect pairs of vertices correspond to the tracks in the original Flatland grid.  
+
+
